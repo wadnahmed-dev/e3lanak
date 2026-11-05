@@ -40,7 +40,7 @@
     </div>
 
     <script>
-        const apiKey = "AQ.Ab8RN6KZVSsdSY58-6Ykxk2t0U4KSwMSraH8udvJp_LGfEd2XQ";
+        const apiKey = "AQ.Ab8RN6JaISJE0xdVadttEF58Z5iTslYw3hGzku_uh6Cvb2SNHw";
 
         async function generateAd() {
             const productName = document.getElementById('productName').value.trim();
@@ -77,7 +77,7 @@
                     resultText.textContent = adOutput;
                     resultContainer.classList.remove('hidden');
                 } else {
-                    throw new Error(data.error?.message || 'خطأ في جلب البيانات من المفتاح');
+                    throw new Error(data.error?.message || 'فشل الاستجابة من المفتاح');
                 }
             } catch (error) {
                 alert('خطأ: ' + error.message);
@@ -88,4 +88,5 @@
         }
     </script>
 </body>
-</html>
+    </html>
+    
