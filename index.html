@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>إعلانك AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--text:#1b2233;--muted:#667089;--line:#e2e7f1;--brand:#5b4bdb;--brand2:#7c3aed;--ok:#0f9d58;--warn-bg:#fff6e0;--warn-text:#7a5200;--err-bg:#fde8e8;--err-text:#a11a1a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10131c;--card:#1a1f2c;--text:#eef1f8;--muted:#9aa4bd;--line:#2a3144;--brand:#8b7dff;--brand2:#a78bfa;--ok:#4cd08a;--warn-bg:#3a2e12;--warn-text:#ffd98a;--err-bg:#3d1c1c;--err-text:#ffb4b4;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10131c;--card:#1a1f2c;--text:#eef1f8;--muted:#9aa4bd;--line:#2a3144;--brand:#8b7dff;--brand2:#a78bfa;--ok:#4cd08a;--warn-bg:#3a2e12;--warn-text:#ffd98a;--err-bg:#3d1c1c;--err-text:#ffb4b4;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Cairo',Tahoma,Arial,sans-serif;line-height:1.7}
+.wrap{max-width:640px;margin:0 auto;padding:16px}
+header{text-align:center;padding:24px 8px 8px}
+.logo{display:inline-block;font-weight:800;font-size:2rem;background:linear-gradient(135deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+header p{margin:4px 0 0;color:var(--muted)}
+.credits{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin:14px 0}
+.credits b{color:var(--brand);font-size:1.2rem}
+.badge{font-size:.8rem;color:var(--muted)}
+.notice{background:var(--warn-bg);color:var(--warn-text);border-radius:12px;padding:10px 14px;font-size:.9rem;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 4px 18px rgba(0,0,0,.04)}
+label{display:block;font-weight:600;margin:12px 0 6px}
+input,textarea{width:100%;font:inherit;color:var(--text);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:12px;outline:none}
+input:focus,textarea:focus{border-color:var(--brand)}
+textarea{min-height:110px;resize:vertical}
+.hint{font-size:.8rem;color:var(--muted)}
+.btn{width:100%;margin-top:18px;border:0;border-radius:14px;padding:14px;font:inherit;font-weight:800;font-size:1.1rem;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));cursor:pointer}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.error{background:var(--err-bg);color:var(--err-text);border-radius:12px;padding:10px 14px;margin-top:14px;font-size:.92rem}
+.ads{margin-top:20px;display:grid;gap:14px}
+.ad{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.ad h3{margin:0 0 8px;font-size:.95rem;color:var(--brand)}
+.ad pre{white-space:pre-wrap;word-wrap:break-word;font:inherit;margin:0 0 12px}
+.copy{border:1.5px solid var(--brand);background:transparent;color:var(--brand);border-radius:10px;padding:8px 16px;font:inherit;font-weight:600;cursor:pointer}
+.copy.done{background:var(--ok);border-color:var(--ok);color:#fff}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:24px 0 8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">إعلانك AI</div>
+    <p>اكتب بيانات منتجك واحصل على 3 إعلانات بالمصري جاهزة للنشر</p>
+  </header>
+
+  <div class="credits"><span>رصيدك التجريبي</span><span><b id="credits">100</b> إعلان</span></div>
+  <div class="notice" id="notice" hidden>الذكاء الاصطناعي غير مربوط بعد، فالتطبيق لن يولّد إعلانات حاليًا. اربط عنوان الخدمة في الإعداد <code>API_URL</code> داخل الملف.</div>
+
+  <div class="card">
+    <label for="name">اسم المنتج</label>
+    <input id="name" maxlength="80" placeholder="مثال: عسل سدر طبيعي">
+    <label for="price">السعر</label>
+    <input id="price" maxlength="40" placeholder="مثال: 250 جنيه">
+    <label for="features">المميزات</label>
+    <textarea id="features" maxlength="600" placeholder="اكتب كل ميزة في سطر، مثل:&#10;طبيعي 100%&#10;توصيل لباب البيت&#10;ضمان استرجاع"></textarea>
+    <div class="hint">كل ما كانت المميزات أوضح، جاءت الإعلانات أدق.</div>
+    <button class="btn" id="go">أنشئ إعلاني</button>
+    <div class="error" id="err" hidden></div>
+  </div>
+
+  <div class="ads" id="ads"></div>
+  <footer>إعلانك AI — نسخة أولية</footer>
+</div>
+
+<script>
+/* ===== الإعدادات ===== */
+// ضع هنا عنوان خدمتك (Netlify Function مثلًا: "/.netlify/functions/generate").
+// الخدمة تستقبل POST بصيغة JSON: {name, price, features, instructions}
+// وترجع JSON بصيغة: {"ads": ["إعلان 1", "إعلان 2", "إعلان 3"]}
+const API_URL = "/.netlify/functions/generate";
+const START_CREDITS = 100;
+const STORE_KEY = "e3lanak_credits";
+
+const $ = id => document.getElementById(id);
+let credits = START_CREDITS;
+
+function loadCredits(){
+  try{const v=parseInt(localStorage.getItem(STORE_KEY),10);if(!isNaN(v)&&v>=0)credits=v;}catch(e){}
+  renderCredits();
+}
+function saveCredits(){try{localStorage.setItem(STORE_KEY,String(credits));}catch(e){}}
+function renderCredits(){$("credits").textContent=credits;}
+function showError(m){const e=$("err");e.textContent=m;e.hidden=!m;}
+
+function buildInstructions(d){
+  return "اكتب 3 إعلانات تسويقية مختلفة باللهجة المصرية لمنتج، مناسبة للنشر على فيسبوك وواتساب. "+
+  "كل إعلان فيه عنوان جذاب وجمل قصيرة ودعوة واضحة لاتخاذ إجراء، واستخدم إيموجي باعتدال. "+
+  "لا تخترع أي معلومة أو خصم أو ضمان غير مذكور. "+
+  "اسم المنتج: "+d.name+"\nالسعر: "+d.price+"\nالمميزات:\n"+d.features+
+  "\nأرجع JSON فقط بالشكل: {\"ads\":[\"...\",\"...\",\"...\"]}";
+}
+
+async function generate(){
+  showError("");
+  const d={name:$("name").value.trim(),price:$("price").value.trim(),features:$("features").value.trim()};
+  if(!d.name||!d.price||!d.features){showError("من فضلك املأ اسم المنتج والسعر والمميزات.");return;}
+  if(credits<=0){showError("انتهى رصيدك التجريبي.");return;}
+  if(!API_URL){showError("الذكاء الاصطناعي غير مربوط بعد، لذلك لم يتم إنشاء أي إعلان.");return;}
+
+  const btn=$("go");btn.disabled=true;btn.textContent="جاري إنشاء إعلاناتك…";
+  try{
+    const res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({...d,instructions:buildInstructions(d)})});
+    if(!res.ok)throw new Error("status "+res.status);
+    const data=await res.json();
+    const ads=Array.isArray(data.ads)?data.ads.filter(a=>typeof a==="string"&&a.trim()):[];
+    if(ads.length<1)throw new Error("empty");
+    renderAds(ads.slice(0,3));
+    credits=Math.max(0,credits-1);saveCredits();renderCredits(); // الخصم بعد نجاح التوليد فقط
+  }catch(e){
+    showError("حصلت مشكلة أثناء إنشاء الإعلانات، لم يُخصم من رصيدك. جرّب مرة أخرى.");
+  }finally{
+    btn.disabled=false;btn.textContent="أنشئ إعلاني";
+  }
+}
+
+function renderAds(ads){
+  const box=$("ads");box.innerHTML="";
+  ads.forEach((text,i)=>{
+    const el=document.createElement("div");el.className="ad";
+    const h=document.createElement("h3");h.textContent="الإعلان "+(i+1);
+    const p=document.createElement("pre");p.textContent=text;
+    const b=document.createElement("button");b.className="copy";b.textContent="نسخ الإعلان";
+    b.onclick=async()=>{
+      try{await navigator.clipboard.writeText(text);}
+      catch(e){const t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove();}
+      b.textContent="تم النسخ ✓";b.classList.add("done");
+      setTimeout(()=>{b.textContent="نسخ الإعلان";b.classList.remove("done");},1800);
+    };
+    el.append(h,p,b);box.appendChild(el);
+  });
+  box.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+$("go").addEventListener("click",generate);
+$("notice").hidden=!!API_URL;
+loadCredits();
+</script>
+</body>
+</html>
