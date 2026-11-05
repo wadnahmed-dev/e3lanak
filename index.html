@@ -62,7 +62,7 @@
             const promptText = `اكتب إعلان تسويقي احترافي وجذاب باللغة العربية لمنتج: "${productName}" ومميزاته: "${productFeatures}". اجعل الإعلان مقسماً إلى: عنوان جذاب، مميزات المنتج، وعرض تسويقي تشجيعي مع إيموجي مناسبة.`;
 
             try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -77,7 +77,7 @@
                     resultText.textContent = adOutput;
                     resultContainer.classList.remove('hidden');
                 } else {
-                    throw new Error(data.error?.message || 'فشل الاستجابة');
+                    throw new Error(data.error?.message || 'خطأ في جلب البيانات من المفتاح');
                 }
             } catch (error) {
                 alert('خطأ: ' + error.message);
@@ -88,5 +88,4 @@
         }
     </script>
 </body>
-  </html>
-  
+</html>
